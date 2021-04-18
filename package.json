@@ -1,0 +1,19 @@
+{
+    "private": true,
+    "name": "hath-metrics-workers",
+    "version": "0.1.0",
+    "description": "hentai at home prometheus metrics with cloudflare workers",
+    "main": "./dist/index.js",
+    "scripts": {
+        "build": "webpack --progress --color",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier --write \"src/**/*.{js,css,json,md}\""
+    },
+    "author": "mocukie",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "prettier": "^2.2.1",
+        "webpack": "^5.33.2",
+        "webpack-cli": "^4.6.0"
+    }
+}
