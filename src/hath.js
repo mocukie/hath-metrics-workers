@@ -82,7 +82,7 @@ export async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
 
     const regionsCtx = new TableContext(0)
     const clientsCtx = new TableContext(0)
-    await new HTMLRewriter()
+    const text = await new HTMLRewriter()
         .on('table', regionsCtx)
         .on('table>tr', new TrHandler(regionsCtx))
         .on('table>tr>td', new TdHandler(regionsCtx))
@@ -91,6 +91,10 @@ export async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
         .on('table.hct>tr>td', new TdHandler(clientsCtx))
         .transform(resp)
         .text()
+
+    if (text.includes('Your IP address has been temporarily')) {
+        throw new HttpError(403, text)
+    }
 
     let regions = []
     regionsCtx.tr.shift()
@@ -129,5 +133,5 @@ export async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
         clients.push(client)
     }
 
-    return { regions, clients, text }
+    return { regions, clients }
 }
