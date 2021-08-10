@@ -118,7 +118,7 @@ async function handleMetricsPrometheus(request) {
         )
 
         if (c.status === 'online') {
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.push(
+            metrics.push(
                 _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
                     name: 'hath_client_max_speed',
                     help: 'client max speed (KB/s)',
@@ -322,7 +322,6 @@ async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
             created: tr[3],
             last_seen: tr[4],
             file_served: +tr[5].replace(',', ''),
-            
         }
 
         if (client.status === 'online') {

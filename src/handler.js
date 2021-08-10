@@ -91,7 +91,7 @@ async function handleMetricsPrometheus(request) {
         )
 
         if (c.status === 'online') {
-            prom.push(
+            metrics.push(
                 prom.Gauge({
                     name: 'hath_client_max_speed',
                     help: 'client max speed (KB/s)',
