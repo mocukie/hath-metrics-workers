@@ -88,37 +88,42 @@ async function handleMetricsPrometheus(request) {
                 val: c.file_served,
                 labels: labels,
             }),
-            prom.Gauge({
-                name: 'hath_client_max_speed',
-                help: 'client max speed (KB/s)',
-                val: c.max_speed,
-                labels: labels,
-            }),
-            prom.Gauge({
-                name: 'hath_client_trust',
-                help: 'client trust',
-                val: c.trust,
-                labels: labels,
-            }),
-            prom.Gauge({
-                name: 'hath_client_quality',
-                help: 'client quality',
-                val: c.quality,
-                labels: labels,
-            }),
-            prom.Gauge({
-                name: 'hath_client_hit_rate',
-                help: 'client hit rate (min)',
-                val: c.hit_rate,
-                labels: labels,
-            }),
-            prom.Gauge({
-                name: 'hath_client_hath_rate',
-                help: 'client hath rate (day)',
-                val: c.hath_rate,
-                labels: labels,
-            }),
         )
+
+        if (c.status === 'online') {
+            prom.push(
+                prom.Gauge({
+                    name: 'hath_client_max_speed',
+                    help: 'client max speed (KB/s)',
+                    val: c.max_speed,
+                    labels: labels,
+                }),
+                prom.Gauge({
+                    name: 'hath_client_trust',
+                    help: 'client trust',
+                    val: c.trust,
+                    labels: labels,
+                }),
+                prom.Gauge({
+                    name: 'hath_client_quality',
+                    help: 'client quality',
+                    val: c.quality,
+                    labels: labels,
+                }),
+                prom.Gauge({
+                    name: 'hath_client_hit_rate',
+                    help: 'client hit rate (min)',
+                    val: c.hit_rate,
+                    labels: labels,
+                }),
+                prom.Gauge({
+                    name: 'hath_client_hath_rate',
+                    help: 'client hath rate (day)',
+                    val: c.hath_rate,
+                    labels: labels,
+                }),
+            )
+        }
     }
 
     return new Response(metrics.join('\n'), {

@@ -120,16 +120,20 @@ export async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
             created: tr[3],
             last_seen: tr[4],
             file_served: +tr[5].replace(',', ''),
-            ip: tr[6],
-            port: +tr[7],
-            versin: tr[8],
-            max_speed: +tr[9].replace(' KB/s', ''),
-            trust: +tr[10],
-            quality: +tr[11],
-            hit_rate: +tr[12].replace(' / min', ''),
-            hath_rate: +tr[13].replace(' / day', ''),
-            country: tr[14],
         }
+
+        if (client.status === 'online') {
+            client.ip = tr[6]
+            client.port = +tr[7]
+            client.versin = tr[8]
+            client.max_speed = +tr[9].replace(' KB/s', '')
+            client.trust = +tr[10]
+            client.quality = +tr[11]
+            client.hit_rate = +tr[12].replace(' / min', '')
+            client.hath_rate = +tr[13].replace(' / day', '')
+            client.country = tr[14]
+        }
+
         clients.push(client)
     }
 

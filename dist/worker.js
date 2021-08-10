@@ -115,37 +115,42 @@ async function handleMetricsPrometheus(request) {
                 val: c.file_served,
                 labels: labels,
             }),
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
-                name: 'hath_client_max_speed',
-                help: 'client max speed (KB/s)',
-                val: c.max_speed,
-                labels: labels,
-            }),
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
-                name: 'hath_client_trust',
-                help: 'client trust',
-                val: c.trust,
-                labels: labels,
-            }),
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
-                name: 'hath_client_quality',
-                help: 'client quality',
-                val: c.quality,
-                labels: labels,
-            }),
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
-                name: 'hath_client_hit_rate',
-                help: 'client hit rate (min)',
-                val: c.hit_rate,
-                labels: labels,
-            }),
-            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
-                name: 'hath_client_hath_rate',
-                help: 'client hath rate (day)',
-                val: c.hath_rate,
-                labels: labels,
-            }),
         )
+
+        if (c.status === 'online') {
+            _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.push(
+                _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
+                    name: 'hath_client_max_speed',
+                    help: 'client max speed (KB/s)',
+                    val: c.max_speed,
+                    labels: labels,
+                }),
+                _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
+                    name: 'hath_client_trust',
+                    help: 'client trust',
+                    val: c.trust,
+                    labels: labels,
+                }),
+                _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
+                    name: 'hath_client_quality',
+                    help: 'client quality',
+                    val: c.quality,
+                    labels: labels,
+                }),
+                _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
+                    name: 'hath_client_hit_rate',
+                    help: 'client hit rate (min)',
+                    val: c.hit_rate,
+                    labels: labels,
+                }),
+                _prometheus__WEBPACK_IMPORTED_MODULE_2__.default.Gauge({
+                    name: 'hath_client_hath_rate',
+                    help: 'client hath rate (day)',
+                    val: c.hath_rate,
+                    labels: labels,
+                }),
+            )
+        }
     }
 
     return new Response(metrics.join('\n'), {
@@ -317,16 +322,21 @@ async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
             created: tr[3],
             last_seen: tr[4],
             file_served: +tr[5].replace(',', ''),
-            ip: tr[6],
-            port: +tr[7],
-            versin: tr[8],
-            max_speed: +tr[9].replace(' KB/s', ''),
-            trust: +tr[10],
-            quality: +tr[11],
-            hit_rate: +tr[12].replace(' / min', ''),
-            hath_rate: +tr[13].replace(' / day', ''),
-            country: tr[14],
+            
         }
+
+        if (client.status === 'online') {
+            client.ip = tr[6]
+            client.port = +tr[7]
+            client.versin = tr[8]
+            client.max_speed = +tr[9].replace(' KB/s', '')
+            client.trust = +tr[10]
+            client.quality = +tr[11]
+            client.hit_rate = +tr[12].replace(' / min', '')
+            client.hath_rate = +tr[13].replace(' / day', '')
+            client.country = tr[14]
+        }
+
         clients.push(client)
     }
 
