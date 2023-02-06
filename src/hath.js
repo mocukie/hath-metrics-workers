@@ -119,7 +119,7 @@ export async function fetchHomePageData(ipb_member_id, ipb_pass_hash) {
             status: tr[2].toLowerCase(),
             created: tr[3],
             last_seen: tr[4],
-            file_served: +tr[5].replace(',', ''),
+            file_served: +tr[5].replaceAll(',', ''),
         }
 
         if (client.status === 'online') {
